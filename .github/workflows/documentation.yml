@@ -1,35 +1,35 @@
 name: Documentation Java
 
 on:
-	pull_request:
-		types: [closed]
+  pull_request:
+    types: [closed]
 
 permissions:
-	contents: write
+  contents: write
 
 jobs:
-	documentation:
-		if: github.event.pull_request.merged == true
-		runs-on: ubuntu-latest
+  documentation:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
 
-		steps:
-			- name: Recuperer le code fusionne
-				uses: actions/checkout@v4
-				with:
-					ref: ${{ github.event.pull_request.merge_commit_sha }}
+    steps:
+      - name: Recuperer le code fusionne
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
 
-			- name: Configurer Java
-				uses: actions/setup-java@v4
-				with:
-					distribution: temurin
-					java-version: '21'
-					cache: maven
+      - name: Configurer Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
 
-			- name: Generer la documentation Java
-				run: mvn -B javadoc::javadoc
+      - name: Generer la documentation Java
+        run: mvn -B javadoc::javadoc
 
-			- name: Publier la documentation sur GitHub Pages
-				uses: peaceiris/actions-gh-pages@v4
-				with:
-					github_token: ${{ secrets.GITHUB_TOKEN }}
-					publish_dir: ./target/site/apidocs
+      - name: Publier la documentation sur GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/site/apidocs
