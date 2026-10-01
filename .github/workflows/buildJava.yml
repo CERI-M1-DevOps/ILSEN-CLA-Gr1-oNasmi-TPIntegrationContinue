@@ -22,5 +22,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Sonar project key: $(echo "${{ github.repository }}" | sed 's-/-_-')"
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=$(echo "${{ github.repository }}" | sed 's-/-_-')
