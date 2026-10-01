@@ -169,4 +169,5 @@ public class ListeSimple {
 
     r1.setSuivant(suivantR2);
     r2.setSuivant(suivantR1);
+  }
 }
