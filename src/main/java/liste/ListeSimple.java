@@ -117,28 +117,56 @@ public class ListeSimple {
         return precedent;
     }
 
-    public void echanger(Noeud r1, Noeud r2) {
-        if (r1 == r2)
-            return;
-        Noeud precedentR1, precedentR2;
-        if (r1 != tete && r2 != tete) {
-            precedentR1 = getPrecedent(r1);
-            precedentR2 = getPrecedent(r2);
-            precedentR1.setSuivant(r2);
-            precedentR2.setSuivant(r1);
-        } else if (r1 == tete) {
-            precedentR2 = getPrecedent(r2);
-            precedentR2.setSuivant(tete);
-            tete = r2;
-        }
-        else if (r2 == tete) {
-            precedentR1 = getPrecedent(r1);
-            precedentR1.setSuivant(tete);
-            tete = r1;
-        }
-        Noeud temp = r2.getSuivant();
-        r2.setSuivant(r1.getSuivant());
-        r1.setSuivant(temp);
+  public void echanger(Noeud r1, Noeud r2) {
+    if (r1 == null || r2 == null || r1 == r2) {
+        return;
     }
 
+    Noeud precedentR1 = (r1 == tete) ? null : getPrecedent(r1);
+    Noeud precedentR2 = (r2 == tete) ? null : getPrecedent(r2);
+
+    // r1 est juste avant r2
+    if (r1.getSuivant() == r2) {
+        if (precedentR1 != null) {
+            precedentR1.setSuivant(r2);
+        } else {
+            tete = r2;
+        }
+
+        r1.setSuivant(r2.getSuivant());
+        r2.setSuivant(r1);
+        return;
+    }
+
+    // r2 est juste avant r1
+    if (r2.getSuivant() == r1) {
+        if (precedentR2 != null) {
+            precedentR2.setSuivant(r1);
+        } else {
+            tete = r1;
+        }
+
+        r2.setSuivant(r1.getSuivant());
+        r1.setSuivant(r2);
+        return;
+    }
+
+    // Cas général : les deux nœuds ne sont pas adjacents
+    Noeud suivantR1 = r1.getSuivant();
+    Noeud suivantR2 = r2.getSuivant();
+
+    if (precedentR1 != null) {
+        precedentR1.setSuivant(r2);
+    } else {
+        tete = r2;
+    }
+
+    if (precedentR2 != null) {
+        precedentR2.setSuivant(r1);
+    } else {
+        tete = r1;
+    }
+
+    r1.setSuivant(suivantR2);
+    r2.setSuivant(suivantR1);
 }
